@@ -32,6 +32,11 @@
     <string name="senha">Senha</string>
     <string name="recuperar_conta">Recuperar conta</string>
 
+    <!-- Home Fragment -->
+    <string name="title_dialogo_logout">Deseja sair da sua conta?</string>
+    <string name="button_dialogo_logout">Confirmar</string>
+    <string name="text_dialogo_logout">Aperte em confirmar para sair da sua conta</string>
+
     <!-- Form Task Fragment -->
 
     <string name="descricao_default_task">Preencha uma descrição.</string>
