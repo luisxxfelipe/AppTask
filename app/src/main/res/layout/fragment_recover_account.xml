@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    tools:context=".ui.auth.RecoverAccountFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:background="@color/lilas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:background="@color/orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:navigationIcon="@drawable/icon_back">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recuperar_conta"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="218dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Informe seu e-mail de cadastro para receber o link para alteração de senha."
+                android:textAlignment="center"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/e_mail"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:hint="@string/digite_seu_email"
+                android:inputType="textEmailAddress"
+                style="@style/EditTextTheme" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnrecuperar_conta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                style="@style/ButtonTheme"
+                android:text="@string/recuperar_conta"
+                android:textColor="@color/orange" />
+
+
+            <ProgressBar
+                android:id="@+id/progresbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:indeterminateTint="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

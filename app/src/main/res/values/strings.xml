@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">TaskApp</string>
+    <string name="status_task_todo">Fazer</string>
+    <string name="status_task_doing">Fazendo</string>
+    <string name="status_task_done">Realizado</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fazer">Fazer</string>
+    <string name="realizado">Realizado</string>
+    <string name="fazendo">Fazendo</string>
+    <string name="criar_nova_tela_de_login_do_app">Criar nova tela de Login do App</string>
+    <string name="status">Status</string>
+    <string name="descricao">Descrição</string>
+    <string name="salvar">Salvar</string>
+    <string name="nova_tarefa">Nova tarefa</string>
+
+    <!-- Generic -->
+
+    <string name="atencao">Atenção</string>
+    <string name="entendi">Entendi</string>
+    <string name="email_default">Preencha o campo de e-mail.</string>
+    <string name="senha_default">Preencha o campo de senha.</string>
+
+    <!-- Register Fragment -->
+
+    <string name="email_default_register">Preencha um e-mail válido.</string>
+    <string name="senha_default_register">Preencha uma senha válida.</string>
+    <string name="criar_conta">Criar Conta</string>
+    <string name="digite_a_sua_senha">Digite a sua senha</string>
+    <string name="digite_seu_email">Digite o seu e-mail</string>
+    <string name="e_mail">E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="recuperar_conta">Recuperar conta</string>
+
+    <!-- Form Task Fragment -->
+
+    <string name="descricao_default_task">Preencha uma descrição.</string>
+    <string name="login">Login</string>
+    <string name="remover">Remover</string>
+    <string name="editar">Editar</string>
+    <string name="detalhes">Detalhes</string>
+</resources>
