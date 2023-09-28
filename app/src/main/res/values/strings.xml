@@ -20,6 +20,7 @@
     <string name="entendi">Entendi</string>
     <string name="email_default">Preencha o campo de e-mail.</string>
     <string name="senha_default">Preencha o campo de senha.</string>
+    <string name="erro_generic">Ocorreu um erro, tente novamente mais tarde.</string>
 
     <!-- Register Fragment -->
 
@@ -36,6 +37,7 @@
     <string name="title_dialogo_logout">Deseja sair da sua conta?</string>
     <string name="button_dialogo_logout">Confirmar</string>
     <string name="text_dialogo_logout">Aperte em confirmar para sair da sua conta</string>
+    <string name="text_dialogo_recover">Link de recuperação de senha enviado com sucesso para o seu e-mail.</string>
 
     <!-- Form Task Fragment -->
 
@@ -44,4 +46,5 @@
     <string name="remover">Remover</string>
     <string name="editar">Editar</string>
     <string name="detalhes">Detalhes</string>
+    <string name="task_save">Tarefa salva com sucesso.</string>
 </resources>

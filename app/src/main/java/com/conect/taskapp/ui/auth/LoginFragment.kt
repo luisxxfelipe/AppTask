@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentLoginBinding
@@ -41,7 +42,6 @@ class LoginFragment : Fragment() {
     private fun initListener(){
         binding.btnLogin.setOnClickListener{
             validateData()
-            //findNavController().navigate(R.id.action_global_homeFragment)
         }
 
         binding.btnRegistener.setOnClickListener{
@@ -59,14 +59,26 @@ class LoginFragment : Fragment() {
 
         if(email.isNotEmpty()){
             if(passaword.isNotEmpty()){
-                findNavController().navigate(R.id.action_global_homeFragment)
-
+                loginUser(email, passaword)
             }else{
                 showBottonSheet(message = getString(R.string.senha_default))
             }
         }else{
             showBottonSheet(message = getString(R.string.email_default))
         }
+    }
+
+    private fun loginUser(email: String, password: String){
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener{task->
+                if(task.isSuccessful){
+                    findNavController().navigate(R.id.action_global_homeFragment)
+                }else{
+                    binding.progresbar.isVisible = false
+
+                    Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     override fun onDestroyView() {
