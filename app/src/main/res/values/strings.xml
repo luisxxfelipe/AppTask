@@ -21,6 +21,12 @@
     <string name="email_default">Preencha o campo de e-mail.</string>
     <string name="senha_default">Preencha o campo de senha.</string>
     <string name="erro_generic">Ocorreu um erro, tente novamente mais tarde.</string>
+    <string name="text_list_task_empty">Nenhuma tarefa cadastrada.</string>
+    <string name="text_load_task">Aguarde, estamos carregando as informações.</string>
+    <string name="delet_task">Tarefa removida com sucesso</string>
+    <string name="text_button_remove">Confirmar</string>
+    <string name="text_title_remove">Deseja remover essa tarefa?</string>
+    <string name="text_message_confirm">Aperte em confirmar para remover a tarefa</string>
 
     <!-- Register Fragment -->
 
@@ -35,7 +41,6 @@
 
     <!-- Home Fragment -->
     <string name="title_dialogo_logout">Deseja sair da sua conta?</string>
-    <string name="button_dialogo_logout">Confirmar</string>
     <string name="text_dialogo_logout">Aperte em confirmar para sair da sua conta</string>
     <string name="text_dialogo_recover">Link de recuperação de senha enviado com sucesso para o seu e-mail.</string>
 
@@ -47,4 +52,6 @@
     <string name="editar">Editar</string>
     <string name="detalhes">Detalhes</string>
     <string name="task_save">Tarefa salva com sucesso.</string>
+    <string name="task_editando_tarefa">Editando tarefa...</string>
+    <string name="task_editando_tarefa_sucesso">Tarefa atualizada com sucesso!</string>
 </resources>

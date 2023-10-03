@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
     private fun initListener(){
         binding.btnLogout.setOnClickListener{
             showBottonSheet(
-                titleButton = R.string.button_dialogo_logout,
+                titleButton = R.string.text_button_remove,
                 titleDialog =  R.string.title_dialogo_logout,
                 message = getString(R.string.text_dialogo_logout),
                 onClick = {
