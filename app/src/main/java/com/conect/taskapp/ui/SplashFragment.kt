@@ -3,10 +3,10 @@ package com.conect.taskapp.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentSplashBinding
@@ -34,14 +34,14 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
 
-        Handler(Looper.getMainLooper()).postDelayed(this::checkAuth,3000)
+        Handler(Looper.getMainLooper()).postDelayed(this::checkAuth, 3000)
     }
 
-    private fun checkAuth(){
+    private fun checkAuth() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-        }else{
+        } else {
             findNavController().navigate(R.id.action_splashFragment_to_authentication)
         }
     }

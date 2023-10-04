@@ -54,4 +54,13 @@
     <string name="task_save">Tarefa salva com sucesso.</string>
     <string name="task_editando_tarefa">Editando tarefa...</string>
     <string name="task_editando_tarefa_sucesso">Tarefa atualizada com sucesso!</string>
+
+    <!-- Erros Firebase Authentication -->
+
+    <string name="account_not_registered">Nenhuma conta encontrada com esse e-mail, tente novamente!</string>
+    <string name="invalid_email_register">Insira um e-mail válido</string>
+    <string name="invalid_password_register">Insira uma senha válida</string>
+    <string name="email_inUsed">Esse e-mail já está em uso</string>
+    <string name="strong_password">Insira uma senha mais forte</string>
+
 </resources>

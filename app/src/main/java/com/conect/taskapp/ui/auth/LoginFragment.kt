@@ -1,16 +1,15 @@
 package com.conect.taskapp.ui.auth
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentLoginBinding
+import com.conect.taskapp.util.FirebaseHelper
 import com.conect.taskapp.util.showBottonSheet
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -27,7 +26,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,44 +38,46 @@ class LoginFragment : Fragment() {
         initListener()
     }
 
-    private fun initListener(){
-        binding.btnLogin.setOnClickListener{
+    private fun initListener() {
+        binding.btnLogin.setOnClickListener {
             validateData()
         }
 
-        binding.btnRegistener.setOnClickListener{
+        binding.btnRegistener.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
-        binding.btnRecover.setOnClickListener{
+        binding.btnRecover.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_recoverAccountFragment)
         }
     }
 
-    private fun validateData(){
+    private fun validateData() {
         val email = binding.editEmail.text.toString().trim()
         val passaword = binding.editSenha.text.toString().trim()
 
-        if(email.isNotEmpty()){
-            if(passaword.isNotEmpty()){
+        if (email.isNotEmpty()) {
+            if (passaword.isNotEmpty()) {
                 loginUser(email, passaword)
-            }else{
+            } else {
                 showBottonSheet(message = getString(R.string.senha_default))
             }
-        }else{
+        } else {
             showBottonSheet(message = getString(R.string.email_default))
         }
     }
 
-    private fun loginUser(email: String, password: String){
+    private fun loginUser(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener{task->
-                if(task.isSuccessful){
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
                     findNavController().navigate(R.id.action_global_homeFragment)
-                }else{
+                } else {
                     binding.progresbar.isVisible = false
 
-                    Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+                    showBottonSheet(
+                        message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
+                    )
                 }
             }
     }

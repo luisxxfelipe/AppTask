@@ -1,10 +1,10 @@
 package com.conect.taskapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentHomeBinding
@@ -37,27 +37,27 @@ class HomeFragment : Fragment() {
         initTabs()
     }
 
-    private fun initTabs(){
+    private fun initTabs() {
         val pageAdapter = ViewPagerAdapter(requireActivity())
         binding.viewPager2.adapter = pageAdapter
 
-        pageAdapter.addFragment(TodoFragment(),R.string.status_task_todo)
-        pageAdapter.addFragment(DoingFragment(),R.string.status_task_doing)
-        pageAdapter.addFragment(DoneFragment(),R.string.status_task_done)
+        pageAdapter.addFragment(TodoFragment(), R.string.status_task_todo)
+        pageAdapter.addFragment(DoingFragment(), R.string.status_task_doing)
+        pageAdapter.addFragment(DoneFragment(), R.string.status_task_done)
 
         binding.viewPager2.offscreenPageLimit = pageAdapter.itemCount
 
-        TabLayoutMediator(binding.tabLayout1, binding.viewPager2){tab, position->
+        TabLayoutMediator(binding.tabLayout1, binding.viewPager2) { tab, position ->
             tab.text = getString(pageAdapter.getTitle(position))
         }.attach()
 
     }
 
-    private fun initListener(){
-        binding.btnLogout.setOnClickListener{
+    private fun initListener() {
+        binding.btnLogout.setOnClickListener {
             showBottonSheet(
                 titleButton = R.string.text_button_remove,
-                titleDialog =  R.string.title_dialogo_logout,
+                titleDialog = R.string.title_dialogo_logout,
                 message = getString(R.string.text_dialogo_logout),
                 onClick = {
                     auth.signOut()

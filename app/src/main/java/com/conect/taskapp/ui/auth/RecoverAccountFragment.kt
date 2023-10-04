@@ -1,15 +1,15 @@
 package com.conect.taskapp.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentRecoverAccountBinding
+import com.conect.taskapp.util.FirebaseHelper
 import com.conect.taskapp.util.initToolBar
 import com.conect.taskapp.util.showBottonSheet
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +27,7 @@ class RecoverAccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRecoverAccountBinding.inflate(inflater,container, false)
+        _binding = FragmentRecoverAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,36 +40,42 @@ class RecoverAccountFragment : Fragment() {
         initListener()
     }
 
-    private fun initListener(){
-        binding.btnrecuperarConta.setOnClickListener{
+    private fun initListener() {
+        binding.btnrecuperarConta.setOnClickListener {
             validateData()
         }
     }
 
-    private fun validateData(){
+    private fun validateData() {
         val email = binding.editEmail.text.toString().trim()
 
-        if(email.isNotEmpty()){
+        if (email.isNotEmpty()) {
 
             binding.progresbar.isVisible = true
 
             recoverAccountUser(email)
-            Toast.makeText(requireContext(), "Link para redefinição de senha enviado com sucesso.", Toast.LENGTH_SHORT).show()
-        }else{
+            Toast.makeText(
+                requireContext(),
+                "Link para redefinição de senha enviado com sucesso.",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
             showBottonSheet(message = getString(R.string.email_default))
         }
     }
 
-    private fun recoverAccountUser(email: String){
-        auth.sendPasswordResetEmail(email).addOnCompleteListener{ task->
+    private fun recoverAccountUser(email: String) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
 
             binding.progresbar.isVisible = false
 
-            if(task.isSuccessful){
+            if (task.isSuccessful) {
                 showBottonSheet(message = getString(R.string.text_dialogo_recover))
 
-            }else{
-                Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+            } else {
+                showBottonSheet(
+                    message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
+                )
             }
         }
     }

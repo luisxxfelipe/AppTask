@@ -2,7 +2,6 @@ package com.conect.taskapp.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -17,30 +16,42 @@ import com.conect.taskapp.databinding.ItemTaskBinding
 class TaskAdapter(
     private val context: Context,
     private val taskSelected: (Task, Int) -> Unit
-) : ListAdapter<Task, TaskAdapter.MyViewHolder>(DIFF_CALLBACK){
+) : ListAdapter<Task, TaskAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
-    companion object{
+    companion object {
         val SELECT_BACK: Int = 1
         val SELECT_REMOVE: Int = 2
         val SELECT_EDIT: Int = 3
         val SELECT_DETAILS: Int = 4
         val SELECT_NEXT: Int = 5
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Task>(){
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Task>() {
             override fun areItemsTheSame(
                 oldItem: Task,
                 newItem: Task
-            ):Boolean{
-                return oldItem.id == newItem.id && oldItem.description == newItem.description
+            ): Boolean {
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
                 oldItem: Task,
                 newItem: Task
-            ): Boolean{
-                return oldItem == newItem && oldItem.description == newItem.description
+            ): Boolean {
+                return when {
+                    oldItem.id != newItem.id -> {
+                        false
+                    }
+                    oldItem.status != newItem.status -> {
+                        false
+                    }
+                    oldItem.description != newItem.description -> {
+                        false
+                    }
+                    else -> true
+                }
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -57,9 +68,9 @@ class TaskAdapter(
         holder.binding.textDescription.text = task.description
         setIndicators(task, holder)
 
-        holder.binding.btnRemover.setOnClickListener{taskSelected(task, SELECT_REMOVE)}
-        holder.binding.btnEdit.setOnClickListener{taskSelected(task, SELECT_EDIT)}
-        holder.binding.btnDetails.setOnClickListener{taskSelected(task, SELECT_DETAILS)}
+        holder.binding.btnRemover.setOnClickListener { taskSelected(task, SELECT_REMOVE) }
+        holder.binding.btnEdit.setOnClickListener { taskSelected(task, SELECT_EDIT) }
+        holder.binding.btnDetails.setOnClickListener { taskSelected(task, SELECT_DETAILS) }
     }
 
     private fun setIndicators(task: Task, holder: MyViewHolder) {
@@ -67,7 +78,7 @@ class TaskAdapter(
             Status.TODO -> {
                 holder.binding.btnBack.isVisible = false
 
-                holder.binding.btnNext.setOnClickListener{taskSelected(task, SELECT_NEXT)}
+                holder.binding.btnNext.setOnClickListener { taskSelected(task, SELECT_NEXT) }
             }
 
             Status.DOING -> {
@@ -85,19 +96,17 @@ class TaskAdapter(
                     )
                 )
 
-                holder.binding.btnBack.setOnClickListener{taskSelected(task, SELECT_BACK)}
-                holder.binding.btnNext.setOnClickListener{taskSelected(task, SELECT_NEXT)}
+                holder.binding.btnBack.setOnClickListener { taskSelected(task, SELECT_BACK) }
+                holder.binding.btnNext.setOnClickListener { taskSelected(task, SELECT_NEXT) }
+            }
+
+            Status.DONE -> {
+
+                holder.binding.btnNext.isVisible = false
+                holder.binding.btnBack.setOnClickListener { taskSelected(task, SELECT_BACK) }
+            }
         }
-
-        Status.DONE -> {
-
-            holder.binding.btnNext.isVisible = false
-            holder.binding.btnBack.setOnClickListener{taskSelected(task, SELECT_BACK)}
-        }
-
-        else -> {}
     }
-}
 
-inner class MyViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class MyViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root)
 }
