@@ -6,22 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentRecoverAccountBinding
+import com.conect.taskapp.ui.BaseFragment
 import com.conect.taskapp.util.FirebaseHelper
 import com.conect.taskapp.util.initToolBar
 import com.conect.taskapp.util.showBottonSheet
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 
-class RecoverAccountFragment : Fragment() {
+class RecoverAccountFragment : BaseFragment() {
 
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +30,6 @@ class RecoverAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolBar(binding.toolbar)
-
-        auth = Firebase.auth
 
         initListener()
     }
@@ -51,6 +45,7 @@ class RecoverAccountFragment : Fragment() {
 
         if (email.isNotEmpty()) {
 
+            hideKeyboard()
             binding.progresbar.isVisible = true
 
             recoverAccountUser(email)
@@ -65,7 +60,7 @@ class RecoverAccountFragment : Fragment() {
     }
 
     private fun recoverAccountUser(email: String) {
-        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+        FirebaseHelper.getAuth().sendPasswordResetEmail(email).addOnCompleteListener { task ->
 
             binding.progresbar.isVisible = false
 

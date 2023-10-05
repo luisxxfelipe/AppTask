@@ -1,6 +1,7 @@
 package com.conect.taskapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,7 @@ class DoingFragment : Fragment() {
         initRecyclerView()
         getTasks()
     }
+
     private fun initRecyclerView() {
         taskAdapter = TaskAdapter(requireContext()) { task, option ->
             optionSelected(task, option)
@@ -56,6 +58,7 @@ class DoingFragment : Fragment() {
             adapter = taskAdapter
         }
     }
+
     private fun optionSelected(task: Task, option: Int) {
         when (option) {
             TaskAdapter.SELECT_BACK -> {
@@ -76,7 +79,7 @@ class DoingFragment : Fragment() {
 
             TaskAdapter.SELECT_EDIT -> {
                 val action = HomeFragmentDirections
-                .actionHomeFragmentToFormTaskFragment(task)
+                    .actionHomeFragmentToFormTaskFragment(task)
                 findNavController().navigate(action)
             }
 
@@ -91,6 +94,7 @@ class DoingFragment : Fragment() {
             }
         }
     }
+
     private fun getTasks() {
         FirebaseHelper.getDataBase()
             .child("Tasks")
@@ -118,14 +122,19 @@ class DoingFragment : Fragment() {
 
             })
     }
-    private fun updadeTask(task: Task){
+
+    private fun updadeTask(task: Task) {
         FirebaseHelper.getDataBase()
             .child("Tasks")
             .child(FirebaseHelper.getIdUser())
             .child(task.id)
             .setValue(task).addOnCompleteListener { result ->
                 if (result.isSuccessful) {
-                    Toast.makeText(requireContext(), R.string.task_editando_tarefa_sucesso, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.task_editando_tarefa_sucesso,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     Toast.makeText(requireContext(), R.string.erro_generic, Toast.LENGTH_SHORT)
                         .show()
@@ -133,6 +142,7 @@ class DoingFragment : Fragment() {
 
             }
     }
+
     private fun deleteTask(task: Task) {
         FirebaseHelper.getDataBase()
             .child("Tasks")
@@ -147,15 +157,16 @@ class DoingFragment : Fragment() {
                         remove(task)
                     }
 
-                    taskAdapter.submitList(newList
+                    taskAdapter.submitList(
+                        newList
                     )
                 } else {
-                    Toast.makeText(requireContext(), R.string.erro_generic, Toast.LENGTH_SHORT)
-                        .show()
+                    Log.i("INFOTESTE", "onCancelled: ")
                 }
 
             }
     }
+
     private fun listEmpty(taskList: List<Task>) {
         binding.textInfo.text = if (taskList.isEmpty()) {
             getString(R.string.text_list_task_empty)
@@ -163,6 +174,7 @@ class DoingFragment : Fragment() {
             ""
         }
     }
+
     private fun observeViewModel() {
         viewModel.taskUpdate.observe(viewLifecycleOwner) { updateTask ->
             if (updateTask.status == Status.DOING) {
@@ -186,6 +198,7 @@ class DoingFragment : Fragment() {
             }
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

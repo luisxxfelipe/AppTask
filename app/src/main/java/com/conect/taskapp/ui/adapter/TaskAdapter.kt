@@ -41,12 +41,15 @@ class TaskAdapter(
                     oldItem.id != newItem.id -> {
                         false
                     }
+
                     oldItem.status != newItem.status -> {
                         false
                     }
+
                     oldItem.description != newItem.description -> {
                         false
                     }
+
                     else -> true
                 }
             }

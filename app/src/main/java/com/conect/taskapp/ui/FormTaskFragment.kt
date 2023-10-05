@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,7 +19,7 @@ import com.conect.taskapp.util.initToolBar
 import com.conect.taskapp.util.showBottonSheet
 
 
-class FormTaskFragment : Fragment() {
+class FormTaskFragment : BaseFragment() {
 
     private var _binding: FragmentFormTaskBinding? = null
     private val binding get() = _binding!!
@@ -59,17 +58,14 @@ class FormTaskFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.btnSave.setOnClickListener {
-            validateData()
+        binding.btnSave.setOnClickListener { validateData() }
 
-            binding.rgStatus.setOnCheckedChangeListener { _, id ->
-                status = when (id) {
-                    R.id.rbTodo -> Status.TODO
-                    R.id.rbDoing -> Status.DOING
-                    else -> Status.DONE
-                }
+        binding.rgStatus.setOnCheckedChangeListener { _, id ->
+            status = when (id) {
+                R.id.rbTodo -> Status.TODO
+                R.id.rbDoing -> Status.DOING
+                else -> Status.DONE
             }
-
         }
     }
 
@@ -97,6 +93,8 @@ class FormTaskFragment : Fragment() {
         val description = binding.editDescription.text.toString().trim()
 
         if (description.isNotEmpty()) {
+
+            hideKeyboard()
             binding.progresbar.isVisible = true
 
             if (newTask) task = Task()

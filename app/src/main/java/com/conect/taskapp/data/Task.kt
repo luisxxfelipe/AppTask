@@ -11,6 +11,6 @@ data class Task(
     var status: Status = Status.TODO
 ) : Parcelable {
     init {
-        this.id = FirebaseHelper.getDataBase().push().key?: ""
+        this.id = FirebaseHelper.getDataBase().push().key ?: ""
     }
 }

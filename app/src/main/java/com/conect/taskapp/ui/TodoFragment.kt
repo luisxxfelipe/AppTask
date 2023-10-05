@@ -1,6 +1,7 @@
 package com.conect.taskapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,15 +19,9 @@ import com.conect.taskapp.ui.adapter.TaskAdapter
 import com.conect.taskapp.ui.auth.TaskViewModel
 import com.conect.taskapp.util.FirebaseHelper
 import com.conect.taskapp.util.showBottonSheet
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import java.nio.file.Files.find
 
 class TodoFragment : Fragment() {
 
@@ -50,6 +45,7 @@ class TodoFragment : Fragment() {
         initRecyclerView()
         getTasks()
     }
+
     private fun initListener() {
         binding.fabAdd.setOnClickListener {
             val action = HomeFragmentDirections
@@ -59,6 +55,7 @@ class TodoFragment : Fragment() {
 
         observeViewModel()
     }
+
     private fun initRecyclerView() {
 
         taskAdapter = TaskAdapter(requireContext()) { task, option ->
@@ -71,6 +68,7 @@ class TodoFragment : Fragment() {
             adapter = taskAdapter
         }
     }
+
     private fun optionSelected(task: Task, option: Int) {
         when (option) {
             TaskAdapter.SELECT_REMOVE -> {
@@ -101,6 +99,7 @@ class TodoFragment : Fragment() {
             }
         }
     }
+
     private fun getTasks() {
         FirebaseHelper.getDataBase()
             .child("Tasks")
@@ -122,12 +121,12 @@ class TodoFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), R.string.erro_generic, Toast.LENGTH_SHORT)
-                        .show()
+                    Log.i("INFOTESTE", "onCancelled: ")
                 }
 
             })
     }
+
     private fun deleteTask(task: Task) {
         FirebaseHelper.getDataBase()
             .child("Tasks")
@@ -142,7 +141,8 @@ class TodoFragment : Fragment() {
                         remove(task)
                     }
 
-                    taskAdapter.submitList(newList
+                    taskAdapter.submitList(
+                        newList
                     )
                 } else {
                     Toast.makeText(requireContext(), R.string.erro_generic, Toast.LENGTH_SHORT)
@@ -151,14 +151,19 @@ class TodoFragment : Fragment() {
 
             }
     }
-    private fun updadeTask(task: Task){
+
+    private fun updadeTask(task: Task) {
         FirebaseHelper.getDataBase()
             .child("Tasks")
             .child(FirebaseHelper.getIdUser())
             .child(task.id)
             .setValue(task).addOnCompleteListener { result ->
                 if (result.isSuccessful) {
-                    Toast.makeText(requireContext(), R.string.task_editando_tarefa_sucesso, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.task_editando_tarefa_sucesso,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     Toast.makeText(requireContext(), R.string.erro_generic, Toast.LENGTH_SHORT)
                         .show()
@@ -166,6 +171,7 @@ class TodoFragment : Fragment() {
 
             }
     }
+
     private fun observeViewModel() {
         viewModel.taskUpdate.observe(viewLifecycleOwner) { updateTask ->
             if (updateTask.status == Status.TODO) {
@@ -189,6 +195,7 @@ class TodoFragment : Fragment() {
             }
         }
     }
+
     private fun listEmpty(taskList: List<Task>) {
         binding.textInfo.text = if (taskList.isEmpty()) {
             getString(R.string.text_list_task_empty)
@@ -196,6 +203,7 @@ class TodoFragment : Fragment() {
             ""
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

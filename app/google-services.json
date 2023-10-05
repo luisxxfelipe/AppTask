@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "34377865595",
+    "firebase_url": "https://gerenciador-de-tarefas-5c648-default-rtdb.firebaseio.com",
+    "project_id": "gerenciador-de-tarefas-5c648",
+    "storage_bucket": "gerenciador-de-tarefas-5c648.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34377865595:android:4dbcad0c7d97d71222c5de",
+        "android_client_info": {
+          "package_name": "com.conect.taskapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa_E1NrXyGfCE4wR5hAbfQhp-eafkrxEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
