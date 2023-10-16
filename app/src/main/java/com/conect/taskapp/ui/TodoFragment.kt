@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.conect.taskapp.R
 import com.conect.taskapp.data.Status
 import com.conect.taskapp.data.Task
@@ -104,7 +105,7 @@ class TodoFragment : Fragment() {
         FirebaseHelper.getDataBase()
             .child("Tasks")
             .child(FirebaseHelper.getIdUser())
-            .addValueEventListener(object : ValueEventListener {
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val taskList = mutableListOf<Task>()
                     for (ds in snapshot.children) {
@@ -173,9 +174,25 @@ class TodoFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+
+        viewModel.taskInsert.observe(viewLifecycleOwner){task->
+            if(task.status == Status.TODO){
+                // Armazena a lista atual do Adapter
+                val oldList = taskAdapter.currentList
+
+                // Gera uma nova lista a partir da lista antiga já com a tarefa atualizada
+                val newList = oldList.toMutableList().apply {
+                    add(0, task)
+                }
+
+                // Envia a lista atualizada para o Adapter
+                taskAdapter.submitList(newList)
+
+                setPositionRecyclerView()
+            }
+        }
         viewModel.taskUpdate.observe(viewLifecycleOwner) { updateTask ->
             if (updateTask.status == Status.TODO) {
-
                 // Armazena a lista atual do Adapter
                 val oldList = taskAdapter.currentList
 
@@ -202,6 +219,34 @@ class TodoFragment : Fragment() {
         } else {
             ""
         }
+    }
+
+    private fun setPositionRecyclerView(){
+        taskAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            override fun onChanged(){
+
+            }
+
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+
+            }
+
+            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.rvTasks.scrollToPosition(0)
+            }
+
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+
+            }
+
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+
+            }
+        })
     }
 
     override fun onDestroyView() {

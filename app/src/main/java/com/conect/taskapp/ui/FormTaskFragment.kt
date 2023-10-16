@@ -58,7 +58,9 @@ class FormTaskFragment : BaseFragment() {
     }
 
     private fun initListener() {
-        binding.btnSave.setOnClickListener { validateData() }
+        binding.btnSave.setOnClickListener {
+            observeViewModel()
+            validateData() }
 
         binding.rgStatus.setOnCheckedChangeListener { _, id ->
             status = when (id) {
@@ -101,43 +103,27 @@ class FormTaskFragment : BaseFragment() {
             task.description = description
             task.status = status
 
-            saveTask()
+            if(newTask){
+                viewModel.insertTask(task)
+            }else{
+                //viewModel.updateTask(task)
+            }
         } else {
             showBottonSheet(message = getString(R.string.descricao_default_task))
         }
     }
 
-    private fun saveTask() {
-        FirebaseHelper.getDataBase()
-            .child("Tasks")
-            .child(FirebaseHelper.getIdUser())
-            .child(task.id)
-            .setValue(task).addOnCompleteListener { result ->
-                if (result.isSuccessful) {
-                    Toast.makeText(
-                        requireContext(), R.string.task_save, Toast.LENGTH_SHORT
-                    ).show()
-
-                    if (newTask) { // sempre que o usuario tiver criando uma nova tarefa
-
-                        findNavController().popBackStack()
-
-                    } else { // editando uma tarefa
-
-                        viewModel.setUpdateTask(task)
-                        binding.progresbar.isVisible = false
-                    }
-                } else {
-
-                    binding.progresbar.isVisible = false
-                    showBottonSheet(message = getString(R.string.erro_generic))
-                }
-            }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun observeViewModel(){
+        viewModel.taskInsert.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), R.string.task_save, Toast.LENGTH_SHORT).show()
+
+            findNavController().popBackStack()
+        }
     }
 
 }
