@@ -44,7 +44,8 @@ class TodoFragment : Fragment() {
 
         initListener()
         initRecyclerView()
-        getTasks()
+        observeViewModel()
+        viewModel.getTasks(Status.TODO)
     }
 
     private fun initListener() {
@@ -53,8 +54,6 @@ class TodoFragment : Fragment() {
                 .actionHomeFragmentToFormTaskFragment(null)
             findNavController().navigate(action)
         }
-
-        observeViewModel()
     }
 
     private fun initRecyclerView() {
@@ -96,36 +95,9 @@ class TodoFragment : Fragment() {
 
             TaskAdapter.SELECT_NEXT -> {
                 task.status = Status.DOING
-                updadeTask(task)
+                viewModel.updateTask(task)
             }
         }
-    }
-
-    private fun getTasks() {
-        FirebaseHelper.getDataBase()
-            .child("Tasks")
-            .child(FirebaseHelper.getIdUser())
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val taskList = mutableListOf<Task>()
-                    for (ds in snapshot.children) {
-                        val task = ds.getValue(Task::class.java) as Task
-                        if (task.status == Status.TODO) {
-                            taskList.add(task)
-                        }
-                    }
-
-                    binding.progressBar.isVisible = false
-                    listEmpty(taskList)
-                    taskList.reverse()
-                    taskAdapter.submitList(taskList)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.i("INFOTESTE", "onCancelled: ")
-                }
-
-            })
     }
 
     private fun deleteTask(task: Task) {
@@ -153,28 +125,14 @@ class TodoFragment : Fragment() {
             }
     }
 
-    private fun updadeTask(task: Task) {
-        FirebaseHelper.getDataBase()
-            .child("Tasks")
-            .child(FirebaseHelper.getIdUser())
-            .child(task.id)
-            .setValue(task).addOnCompleteListener { result ->
-                if (result.isSuccessful) {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.task_editando_tarefa_sucesso,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(requireContext(), R.string.erro_generic, Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-            }
-    }
-
     private fun observeViewModel() {
 
+        viewModel.taskList.observe(viewLifecycleOwner){tasklist->
+            binding.progressBar.isVisible = false
+            listEmpty(tasklist)
+            taskAdapter.submitList(tasklist)
+
+        }
         viewModel.taskInsert.observe(viewLifecycleOwner){task->
             if(task.status == Status.TODO){
                 // Armazena a lista atual do Adapter
@@ -192,24 +150,27 @@ class TodoFragment : Fragment() {
             }
         }
         viewModel.taskUpdate.observe(viewLifecycleOwner) { updateTask ->
-            if (updateTask.status == Status.TODO) {
-                // Armazena a lista atual do Adapter
-                val oldList = taskAdapter.currentList
+            // Armazena a lista atual do Adapter
+            val oldList = taskAdapter.currentList
 
-                // Gera uma nova lista a partir da lista antiga já com a tarefa atualizada
-                val newList = oldList.toMutableList().apply {
+            // Gera uma nova lista a partir da lista antiga já com a tarefa atualizada
+            val newList = oldList.toMutableList().apply {
+
+                if (updateTask.status == Status.TODO) {
                     find { it.id == updateTask.id }?.description = updateTask.description
+                }else{
+                    remove(updateTask)
                 }
-
-                // Armazena a posicao da tarefa a ser atualizada na lista
-                val position = newList.indexOfFirst { it.id == updateTask.id }
-
-                // Envia a lista atualizada para o Adapter
-                taskAdapter.submitList(newList)
-
-                // Atualiza a tarefa pela posição do Adpater
-                taskAdapter.notifyItemChanged(position)
             }
+
+            // Armazena a posicao da tarefa a ser atualizada na lista
+            val position = newList.indexOfFirst { it.id == updateTask.id }
+
+            // Envia a lista atualizada para o Adapter
+            taskAdapter.submitList(newList)
+
+            // Atualiza a tarefa pela posição do Adpater
+            taskAdapter.notifyItemChanged(position)
         }
     }
 

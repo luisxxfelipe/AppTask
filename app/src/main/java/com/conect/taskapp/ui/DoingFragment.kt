@@ -1,11 +1,13 @@
 package com.conect.taskapp.ui
 
 import android.os.Bundle
+import android.system.Os.remove
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -22,6 +24,7 @@ import com.conect.taskapp.util.showBottonSheet
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import java.nio.file.Files.find
 
 
 class DoingFragment : Fragment() {
@@ -63,7 +66,7 @@ class DoingFragment : Fragment() {
         when (option) {
             TaskAdapter.SELECT_BACK -> {
                 task.status = Status.TODO
-                updadeTask(task)
+                updateTask(task)
             }
 
             TaskAdapter.SELECT_REMOVE -> {
@@ -90,7 +93,7 @@ class DoingFragment : Fragment() {
 
             TaskAdapter.SELECT_NEXT -> {
                 task.status = Status.DONE
-                updadeTask(task)
+                updateTask(task)
             }
         }
     }
@@ -123,7 +126,7 @@ class DoingFragment : Fragment() {
             })
     }
 
-    private fun updadeTask(task: Task) {
+    private fun updateTask(task: Task) {
         FirebaseHelper.getDataBase()
             .child("Tasks")
             .child(FirebaseHelper.getIdUser())

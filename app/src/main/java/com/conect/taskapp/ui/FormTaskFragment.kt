@@ -106,7 +106,7 @@ class FormTaskFragment : BaseFragment() {
             if(newTask){
                 viewModel.insertTask(task)
             }else{
-                //viewModel.updateTask(task)
+                viewModel.updateTask(task)
             }
         } else {
             showBottonSheet(message = getString(R.string.descricao_default_task))
@@ -123,6 +123,11 @@ class FormTaskFragment : BaseFragment() {
             Toast.makeText(requireContext(), R.string.task_save, Toast.LENGTH_SHORT).show()
 
             findNavController().popBackStack()
+        }
+
+        viewModel.taskUpdate.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), R.string.task_editando_tarefa_sucesso, Toast.LENGTH_SHORT).show()
+            binding.progresbar.isVisible = false
         }
     }
 
