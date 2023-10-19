@@ -19,6 +19,7 @@ import com.conect.taskapp.databinding.FragmentTodoBinding
 import com.conect.taskapp.ui.adapter.TaskAdapter
 import com.conect.taskapp.ui.auth.TaskViewModel
 import com.conect.taskapp.util.FirebaseHelper
+import com.conect.taskapp.util.StateView
 import com.conect.taskapp.util.showBottonSheet
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -77,7 +78,7 @@ class TodoFragment : Fragment() {
                     message = getString(R.string.text_message_confirm),
                     titleButton = R.string.text_button_remove,
                     onClick = {
-                        deleteTask(task)
+                        viewModel.deleteTask(task)
                     }
                 )
             }
@@ -127,10 +128,23 @@ class TodoFragment : Fragment() {
 
     private fun observeViewModel() {
 
-        viewModel.taskList.observe(viewLifecycleOwner){tasklist->
-            binding.progressBar.isVisible = false
-            listEmpty(tasklist)
-            taskAdapter.submitList(tasklist)
+        viewModel.taskList.observe(viewLifecycleOwner){stateView->
+            when(stateView){
+                is StateView.OnLoading->{
+                    binding.progressBar.isVisible = true
+                }
+
+                is StateView.OnSucess->{
+                    binding.progressBar.isVisible = false
+                    listEmpty(stateView.data?: emptyList())
+                    taskAdapter.submitList(stateView.data)
+                }
+
+                is StateView.OnError->{
+                    Toast.makeText(requireContext(), stateView.message, Toast.LENGTH_SHORT).show()
+                    binding.progressBar.isVisible = false
+                }
+            }
 
         }
         viewModel.taskInsert.observe(viewLifecycleOwner){task->
@@ -171,6 +185,15 @@ class TodoFragment : Fragment() {
 
             // Atualiza a tarefa pela posição do Adpater
             taskAdapter.notifyItemChanged(position)
+        }
+        viewModel.taskDelete.observe(viewLifecycleOwner){task->
+            Toast.makeText(requireContext(), R.string.delet_task, Toast.LENGTH_SHORT).show()
+
+            val oldList = taskAdapter.currentList
+            val newList = oldList.toMutableList().apply {remove(task)}
+
+            taskAdapter.submitList(newList)
+
         }
     }
 
