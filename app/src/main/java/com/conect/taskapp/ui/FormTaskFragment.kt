@@ -14,7 +14,6 @@ import com.conect.taskapp.data.Status
 import com.conect.taskapp.data.Task
 import com.conect.taskapp.databinding.FragmentFormTaskBinding
 import com.conect.taskapp.ui.auth.TaskViewModel
-import com.conect.taskapp.util.FirebaseHelper
 import com.conect.taskapp.util.initToolBar
 import com.conect.taskapp.util.showBottonSheet
 
@@ -60,7 +59,8 @@ class FormTaskFragment : BaseFragment() {
     private fun initListener() {
         binding.btnSave.setOnClickListener {
             observeViewModel()
-            validateData() }
+            validateData()
+        }
 
         binding.rgStatus.setOnCheckedChangeListener { _, id ->
             status = when (id) {
@@ -103,9 +103,9 @@ class FormTaskFragment : BaseFragment() {
             task.description = description
             task.status = status
 
-            if(newTask){
+            if (newTask) {
                 viewModel.insertTask(task)
-            }else{
+            } else {
                 viewModel.updateTask(task)
             }
         } else {
@@ -118,7 +118,7 @@ class FormTaskFragment : BaseFragment() {
         _binding = null
     }
 
-    private fun observeViewModel(){
+    private fun observeViewModel() {
         viewModel.taskInsert.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), R.string.task_save, Toast.LENGTH_SHORT).show()
 
@@ -126,7 +126,11 @@ class FormTaskFragment : BaseFragment() {
         }
 
         viewModel.taskUpdate.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), R.string.task_editando_tarefa_sucesso, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                R.string.task_editando_tarefa_sucesso,
+                Toast.LENGTH_SHORT
+            ).show()
             binding.progresbar.isVisible = false
         }
     }
