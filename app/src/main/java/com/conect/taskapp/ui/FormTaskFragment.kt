@@ -15,7 +15,7 @@ import com.conect.taskapp.data.Task
 import com.conect.taskapp.databinding.FragmentFormTaskBinding
 import com.conect.taskapp.ui.auth.TaskViewModel
 import com.conect.taskapp.util.initToolBar
-import com.conect.taskapp.util.showBottonSheet
+import com.conect.taskapp.util.showBottomSheet
 
 
 class FormTaskFragment : BaseFragment() {
@@ -109,7 +109,7 @@ class FormTaskFragment : BaseFragment() {
                 viewModel.updateTask(task)
             }
         } else {
-            showBottonSheet(message = getString(R.string.descricao_default_task))
+            showBottomSheet(message = getString(R.string.descricao_default_task))
         }
     }
 

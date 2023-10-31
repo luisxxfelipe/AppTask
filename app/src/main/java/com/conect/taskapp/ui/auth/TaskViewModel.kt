@@ -25,12 +25,13 @@ class TaskViewModel : ViewModel() {
     private val _taskDelete = MutableLiveData<StateView<Task>>()
     val taskDelete: LiveData<StateView<Task>> = _taskDelete
 
+
     fun getTasks() {
         try {
-
             _taskList.postValue(StateView.OnLoading())
+
             FirebaseHelper.getDataBase()
-                .child("Tasks")
+                .child("tasks")
                 .child(FirebaseHelper.getIdUser())
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -39,14 +40,14 @@ class TaskViewModel : ViewModel() {
                             val task = ds.getValue(Task::class.java) as Task
                             taskList.add(task)
                         }
+
                         taskList.reverse()
                         _taskList.postValue(StateView.OnSuccess(taskList))
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        Log.i("INFOTESTE", "onCancelled: ")
+                        Log.i("INFOTESTE", "onCancelled:")
                     }
-
                 })
         } catch (ex: Exception) {
             _taskList.postValue(StateView.OnError(ex.message.toString()))
@@ -107,8 +108,9 @@ class TaskViewModel : ViewModel() {
                         _taskDelete.postValue(StateView.OnSuccess(task))
                     }
                 }
-        } catch (ex: Exception) {
+        }catch (ex: Exception){
             _taskDelete.postValue(StateView.OnError(ex.message.toString()))
         }
     }
+
 }

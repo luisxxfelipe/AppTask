@@ -11,7 +11,7 @@ import com.conect.taskapp.databinding.FragmentRecoverAccountBinding
 import com.conect.taskapp.ui.BaseFragment
 import com.conect.taskapp.util.FirebaseHelper
 import com.conect.taskapp.util.initToolBar
-import com.conect.taskapp.util.showBottonSheet
+import com.conect.taskapp.util.showBottomSheet
 
 
 class RecoverAccountFragment : BaseFragment() {
@@ -55,7 +55,7 @@ class RecoverAccountFragment : BaseFragment() {
                 Toast.LENGTH_SHORT
             ).show()
         } else {
-            showBottonSheet(message = getString(R.string.email_default))
+            showBottomSheet(message = getString(R.string.email_default))
         }
     }
 
@@ -65,10 +65,10 @@ class RecoverAccountFragment : BaseFragment() {
             binding.progresbar.isVisible = false
 
             if (task.isSuccessful) {
-                showBottonSheet(message = getString(R.string.text_dialogo_recover))
+                showBottomSheet(message = getString(R.string.text_dialogo_recover))
 
             } else {
-                showBottonSheet(
+                showBottomSheet(
                     message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
                 )
             }

@@ -10,7 +10,7 @@ import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentLoginBinding
 import com.conect.taskapp.ui.BaseFragment
 import com.conect.taskapp.util.FirebaseHelper
-import com.conect.taskapp.util.showBottonSheet
+import com.conect.taskapp.util.showBottomSheet
 
 class LoginFragment : BaseFragment() {
 
@@ -57,10 +57,10 @@ class LoginFragment : BaseFragment() {
 
                 loginUser(email, passaword)
             } else {
-                showBottonSheet(message = getString(R.string.senha_default))
+                showBottomSheet(message = getString(R.string.senha_default))
             }
         } else {
-            showBottonSheet(message = getString(R.string.email_default))
+            showBottomSheet(message = getString(R.string.email_default))
         }
     }
 
@@ -72,7 +72,7 @@ class LoginFragment : BaseFragment() {
                 } else {
                     binding.progresbar.isVisible = false
 
-                    showBottonSheet(
+                    showBottomSheet(
                         message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
                     )
                 }

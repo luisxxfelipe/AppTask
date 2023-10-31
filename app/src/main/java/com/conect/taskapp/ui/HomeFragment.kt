@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.conect.taskapp.R
 import com.conect.taskapp.databinding.FragmentHomeBinding
 import com.conect.taskapp.ui.adapter.ViewPagerAdapter
-import com.conect.taskapp.util.showBottonSheet
+import com.conect.taskapp.util.showBottomSheet
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
 
     private fun initListener() {
         binding.btnLogout.setOnClickListener {
-            showBottonSheet(
+            showBottomSheet(
                 titleButton = R.string.text_button_remove,
                 titleDialog = R.string.title_dialogo_logout,
                 message = getString(R.string.text_dialogo_logout),

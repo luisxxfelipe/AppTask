@@ -11,7 +11,7 @@ import com.conect.taskapp.databinding.FragmentRegisterBinding
 import com.conect.taskapp.ui.BaseFragment
 import com.conect.taskapp.util.FirebaseHelper
 import com.conect.taskapp.util.initToolBar
-import com.conect.taskapp.util.showBottonSheet
+import com.conect.taskapp.util.showBottomSheet
 
 class RegisterFragment : BaseFragment() {
 
@@ -50,10 +50,10 @@ class RegisterFragment : BaseFragment() {
                 binding.progresbar.isVisible = true
                 registerUser(email, passaword)
             } else {
-                showBottonSheet(message = getString(R.string.senha_default_register))
+                showBottomSheet(message = getString(R.string.senha_default_register))
             }
         } else {
-            showBottonSheet(message = getString(R.string.email_default_register))
+            showBottomSheet(message = getString(R.string.email_default_register))
         }
     }
 
@@ -64,7 +64,7 @@ class RegisterFragment : BaseFragment() {
                     findNavController().navigate(R.id.action_global_homeFragment)
                 } else {
                     binding.progresbar.isVisible = false
-                    showBottonSheet(
+                    showBottomSheet(
                         message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
                     )
                 }

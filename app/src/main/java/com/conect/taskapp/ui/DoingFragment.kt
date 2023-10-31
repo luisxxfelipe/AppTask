@@ -18,7 +18,7 @@ import com.conect.taskapp.databinding.FragmentDoingBinding
 import com.conect.taskapp.ui.adapter.TaskAdapter
 import com.conect.taskapp.ui.auth.TaskViewModel
 import com.conect.taskapp.util.StateView
-import com.conect.taskapp.util.showBottonSheet
+import com.conect.taskapp.util.showBottomSheet
 
 
 class DoingFragment : Fragment() {
@@ -51,11 +51,10 @@ class DoingFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.taskList.observe(viewLifecycleOwner) { stateView ->
-            when (stateView) {
+            when(stateView){
                 is StateView.OnLoading -> {
                     binding.progressBar.isVisible = true
                 }
-
                 is StateView.OnSuccess -> {
 
                     val taskList = stateView.data?.filter { it.status == Status.DOING }
@@ -65,20 +64,18 @@ class DoingFragment : Fragment() {
 
                     taskAdapter.submitList(taskList)
                 }
-
                 is StateView.OnError -> {
-                    Toast.makeText(requireContext(), stateView.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), stateView.massage, Toast.LENGTH_SHORT).show()
                     binding.progressBar.isVisible = false
                 }
             }
         }
 
         viewModel.taskUpdate.observe(viewLifecycleOwner) { stateView ->
-            when (stateView) {
+            when(stateView){
                 is StateView.OnLoading -> {
                     binding.progressBar.isVisible = true
                 }
-
                 is StateView.OnSuccess -> {
                     binding.progressBar.isVisible = false
 
@@ -87,14 +84,13 @@ class DoingFragment : Fragment() {
 
                     // Gera uma nova lista a partir da lista antiga já com a tarefa atualizada
                     val newList = oldList.toMutableList().apply {
-                        if (!oldList.contains(stateView.data) && stateView.data?.status == Status.DOING) {
+                        if(!oldList.contains(stateView.data) && stateView.data?.status == Status.DOING){
                             add(0, stateView.data)
                             setPositionRecyclerView()
                         }
 
                         if (stateView.data?.status == Status.DOING) {
-                            find { it.id == stateView.data.id }?.description =
-                                stateView.data.description
+                            find { it.id == stateView.data.id }?.description = stateView.data.description
                         } else {
                             remove(stateView.data)
                         }
@@ -111,20 +107,18 @@ class DoingFragment : Fragment() {
 
                     listEmpty(newList)
                 }
-
                 is StateView.OnError -> {
-                    Toast.makeText(requireContext(), stateView.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), stateView.massage, Toast.LENGTH_SHORT).show()
                     binding.progressBar.isVisible = false
                 }
             }
         }
 
         viewModel.taskDelete.observe(viewLifecycleOwner) { stateView ->
-            when (stateView) {
+            when(stateView){
                 is StateView.OnLoading -> {
                     binding.progressBar.isVisible = true
                 }
-
                 is StateView.OnSuccess -> {
                     binding.progressBar.isVisible = false
 
@@ -143,9 +137,8 @@ class DoingFragment : Fragment() {
 
                     listEmpty(newList)
                 }
-
                 is StateView.OnError -> {
-                    Toast.makeText(requireContext(), stateView.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), stateView.massage, Toast.LENGTH_SHORT).show()
                     binding.progressBar.isVisible = false
                 }
             }
@@ -170,9 +163,8 @@ class DoingFragment : Fragment() {
                 task.status = Status.TODO
                 viewModel.updateTask(task)
             }
-
             TaskAdapter.SELECT_REMOVE -> {
-                showBottonSheet(
+                showBottomSheet(
                     titleDialog = R.string.text_title_remove,
                     message = getString(R.string.text_message_confirm),
                     titleButton = R.string.text_button_remove,

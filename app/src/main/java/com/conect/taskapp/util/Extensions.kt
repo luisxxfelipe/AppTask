@@ -14,7 +14,7 @@ fun Fragment.initToolBar(toolbar: Toolbar) {
     toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
 }
 
-fun Fragment.showBottonSheet(
+fun Fragment.showBottomSheet(
     titleDialog: Int? = null,
     titleButton: Int? = null,
     message: String,
